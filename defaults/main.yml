@@ -86,6 +86,8 @@ remove_RPC: yes
 disable_wifi: no
 IPv6_is_enabled: yes
 enable_firewall: yes
+## 3.2 Network Parameters (Host Only)
+host_only: no  # Set to yes if host in't configured as a router or firewall
 ## 3.5.1.6 Ensure firewall rules exist for all open ports | defined ports
 firewall_list_of_ports_to_allow:
   - { rule: "allow", port: "8080", proto: "tcp" }

@@ -48,11 +48,15 @@
       with_items:
         - { name: net.ipv4.conf.all.send_redirects, value: 0 }
         - { name: net.ipv4.conf.default.send_redirects, value: 0 }
+      when:
+        - host_only
     - name: 3.2.1 Ensure packet redirect sending is disabled | load
       shell: |
         sysctl -w net.ipv4.conf.all.send_redirects=0
         sysctl -w net.ipv4.conf.default.send_redirects=0
         sysctl -w net.ipv4.route.flush=1
+      when:
+        - host_only
   tags:
     - section3
     - level_1_server
@@ -80,6 +84,8 @@
     - name: 3.2.2 Ensure IP forwarding is disabled | IPV6 load"
       script: 3_2_2_2.sh
       # when: IPv6_is_enabled
+  when:
+    - host_only
   tags:
     - section3
     - level_1_server
