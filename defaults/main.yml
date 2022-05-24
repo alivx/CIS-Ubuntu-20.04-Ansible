@@ -96,7 +96,7 @@ remove_RPC: yes
 disable_wifi: no
 IPv6_is_enabled: no
 enable_firewall: yes
-UFWEnable: yes # Running both ufw and the services included in the iptables-persistent package may lead to conflict
+UFWEnable: no # Running both ufw and the services included in the iptables-persistent package may lead to conflict
 ## 3.5.1.6 Ensure firewall rules exist for all open ports | defined ports
 firewall_list_of_ports_to_allow:
   - { rule: "allow", port: "22", proto: "tcp" }
