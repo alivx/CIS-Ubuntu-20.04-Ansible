@@ -523,7 +523,7 @@
         state: present
         create: yes
         dest: /etc/security/pwquality.conf
-        regexp: "^{{ item.key }}"
+        regexp: "^#?\\s*{{ item.key }}"
         line: "{{ item.key }} = {{ item.value }}"
       with_items:
         - { key: "minlen", value: "14" }
@@ -531,6 +531,7 @@
         - { key: "ucredit", value: "-1" }
         - { key: "ocredit", value: "-1" }
         - { key: "lcredit", value: "-1" }
+        - { key: "minclass", value: "4" }
   tags:
     - section5
     - level_1_server
