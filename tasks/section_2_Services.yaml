@@ -363,7 +363,7 @@
       lineinfile:
         dest: /etc/postfix/main.cf
         regexp: "^(#)?inet_interfaces"
-        line: "inet_interfaces = localhost"
+        line: "inet_interfaces = loopback-only"
       when: postfix.stat.exists
   tags:
     - section2
