@@ -567,7 +567,7 @@
   lineinfile:
     dest: /etc/sudoers
     state: present
-    regexp: "^Defaults logfile.*"
+    regexp: "^#?\\s*Defaults logfile.*"
     line: 'Defaults logfile="/var/log/sudo.log"'
     validate: "visudo -cf %s"
   tags:
