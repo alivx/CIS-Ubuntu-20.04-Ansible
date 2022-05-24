@@ -19,7 +19,7 @@ set_bootloader_credentials: no
 bootloader_credentials: { user: "root", password: "b00tl04derPwd" }
 # 1.4.3 Ensure authentication required for single user mode
 set_root_password: yes
-root_password: r00tP4ssw0rd
+root_password: SingTel5G@SingTel5G
 ## 1.7.1 Ensure permissions on /etc/motd are configured: allow for custom motd template (if the file doesn't exist, the
 ## default template in files/templates/motd.j2 will be used)
 custom_motd_file_path: "{{ inventory_dir }}/../custom_templates/motd_custom.txt"
