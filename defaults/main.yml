@@ -22,13 +22,13 @@ set_root_password: yes
 root_password: r00tP4ssw0rd
 ## 1.7.1 Ensure permissions on /etc/motd are configured: allow for custom motd template (if the file doesn't exist, the
 ## default template in files/templates/motd.j2 will be used)
-custom_motd_file_path: "{{ inventory_dir }}/custom_templates/motd_custom.txt"
+# custom_motd_file_path: "{{ inventory_dir }}/custom_templates/motd_custom.txt"
 ## 1.7.2 Ensure permissions on /etc/issue are configured: allow for custom issue template (if the file doesn't exist, the
 ## default template in files/templates/issue.j2 will be used)
-custom_issue_file_path: "{{ inventory_dir }}/custom_templates/issue_custom.txt"
+# custom_issue_file_path: "{{ inventory_dir }}/custom_templates/issue_custom.txt"
 ## 1.7.3 Ensure permissions on /etc/issue.net are configured: allow for custom issue.net template (if the file doesn't exist, the
 ## default template in files/templates/issue.net.j2 will be used)
-custom_issue_net_file_path: "{{ inventory_dir }}/custom_templates/issue_net_custom.txt"
+# custom_issue_net_file_path: "{{ inventory_dir }}/custom_templates/issue_net_custom.txt"
 
 # Section 2 Settings
 ##Setting for systemd-timesyncd
