@@ -376,7 +376,7 @@
   apt:
     name: rsync
     state: absent
-  ignore_errors: yes
+  ignore_errors: true
   when: remove_rsyncservice
   tags:
     - section2

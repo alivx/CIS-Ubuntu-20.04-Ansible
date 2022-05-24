@@ -326,7 +326,7 @@
       notify:
         - audit rules load
         - auditd restart
-  ignore_errors: yes
+  ignore_errors: true
   tags:
     - section4
     - level_2_server
