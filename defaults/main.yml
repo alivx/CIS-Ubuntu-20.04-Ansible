@@ -19,16 +19,16 @@ set_bootloader_credentials: no
 bootloader_credentials: { user: "root", password: "b00tl04derPwd" }
 # 1.4.3 Ensure authentication required for single user mode
 set_root_password: yes
-root_password: r00tP4ssw0rd
+root_password: SingTel5G@SingTel5G
 ## 1.7.1 Ensure permissions on /etc/motd are configured: allow for custom motd template (if the file doesn't exist, the
 ## default template in files/templates/motd.j2 will be used)
-custom_motd_file_path: "{{ inventory_dir }}/custom_templates/motd_custom.txt"
+custom_motd_file_path: "{{ inventory_dir }}/../custom_templates/motd_custom.txt"
 ## 1.7.2 Ensure permissions on /etc/issue are configured: allow for custom issue template (if the file doesn't exist, the
 ## default template in files/templates/issue.j2 will be used)
-custom_issue_file_path: "{{ inventory_dir }}/custom_templates/issue_custom.txt"
+custom_issue_file_path: "{{ inventory_dir }}/../custom_templates/issue_custom.txt"
 ## 1.7.3 Ensure permissions on /etc/issue.net are configured: allow for custom issue.net template (if the file doesn't exist, the
 ## default template in files/templates/issue.net.j2 will be used)
-custom_issue_net_file_path: "{{ inventory_dir }}/custom_templates/issue_net_custom.txt"
+custom_issue_net_file_path: "{{ inventory_dir }}/../custom_templates/issue_net_custom.txt"
 
 # Section 2 Settings
 ##Setting for systemd-timesyncd
@@ -96,10 +96,17 @@ remove_RPC: yes
 disable_wifi: no
 IPv6_is_enabled: no
 enable_firewall: yes
-UFWEnable: yes # Running both ufw and the services included in the iptables-persistent package may lead to conflict
+UFWEnable: no # Running both ufw and the services included in the iptables-persistent package may lead to conflict
 ## 3.5.1.6 Ensure firewall rules exist for all open ports | defined ports
 firewall_list_of_ports_to_allow:
-  - { rule: "allow", port: "8080", proto: "tcp" }
+  - { rule: "allow", port: "22", proto: "tcp" }
+  - { rule: "allow", port: "80", proto: "tcp" }
+  - { rule: "allow", port: "81", proto: "tcp" }
+  - { rule: "allow", port: "443", proto: "tcp" }
+  - { rule: "allow", port: "1880", proto: "tcp" }
+  - { rule: "allow", port: "1883", proto: "tcp" }
+  - { rule: "allow", port: "8883", proto: "tcp" }
+  - { rule: "allow", port: "5432", proto: "tcp" }
 ## 3.5.1.6 Ensure firewall rules exist for all open ports | keep_alived
 firewall_allow_keep_alive: no
 
@@ -124,14 +131,14 @@ grub_backlog_limit: 8192
 
 # Section 5 settings
 ## 5.1.8 Ensure cron is restricted to authorized users
-allowd_hosts: "ALL: 0.0.0.0/0.0.0.0, 192.168.2.0/255.255.255.0"
+allowd_hosts: "ALL: 0.0.0.0/0.0.0.0, 10.2.0.0/255.255.0.0"
 ## 5.2.13 Ensure only strong MAC algorithms are used
 ssh_MACs: "hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256"
 ## 5.2.14 Ensure only strong Key Exchange algorithms are used
 ssh_key_algorithms: "curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256"
-ssh_ciphers: chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+ssh_ciphers: aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
 ## 5.2.17 Ensure SSH access is limited
-allowed_users: ubuntu root #Put None or list of users space between each user
+allowed_users: adminuser #Put None or list of users space between each user
 allowed_groups: None
 deny_users: None
 deny_groups: None
@@ -148,7 +155,7 @@ pass_warn_age: 7
 pass_min_days: 1
 ## 5.4.1.1 Ensure password expiration is 365 days or less
 list_of_os_users:
-  - ubuntu
+  - adminuser
 ## 5.4.1.4 Ensure inactive password lock is 30 days or less
 ##Note: A value of -1 would disable this setting
 account_inactive: 30

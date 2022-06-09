@@ -214,7 +214,7 @@
       modprobe:
         name: vfat
         state: absent
-  ignore_errors: yes
+  ignore_errors: true
   when: disable_fat
   tags:
     - section1
@@ -420,7 +420,7 @@
       shell: |
         df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null
       register: worldWriteableList
-      ignore_errors: yes
+      ignore_errors: true
     - name: 1.1.22 Ensure sticky bit is set on all world-writable directories | fix
       script: 1_1_22.sh
       when: worldWriteableList.stdout_lines |length > 0
@@ -443,7 +443,7 @@
       service:
         name: autofs
         enabled: false
-      ignore_errors: yes
+      ignore_errors: true
     - name: 1.1.23 Disable Automounting | package remove
       apt:
         name: autofs
@@ -567,7 +567,7 @@
   lineinfile:
     dest: /etc/sudoers
     state: present
-    regexp: "^Defaults logfile.*"
+    regexp: "^#?\\s*Defaults logfile.*"
     line: 'Defaults logfile="/var/log/sudo.log"'
     validate: "visudo -cf %s"
   tags:
@@ -793,7 +793,7 @@
       shell: |
         dmesg | grep -E "NX|XD" | grep " active"
       register: xdnx
-      ignore_errors: yes
+      ignore_errors: true
     - name: 1.5.1 Ensure XD/NX support is enabled
       debug:
         msg: |
@@ -802,7 +802,7 @@
           If necessary configure your bootloader to load the new kernel and reboot the system.
           You may need to enable NX or XD support in your bios.
           {{ xdnx.stdout_lines }}
-      ignore_errors: yes
+      ignore_errors: true
   tags:
     - section1
     - level_1_server
@@ -829,7 +829,7 @@
   block:
     - name: 1.5.3 Ensure prelink is not installed
       command: prelink -ua
-      ignore_errors: yes
+      ignore_errors: true
     - name: 1.5.3 Ensure prelink is not installed
       apt:
         name: prelink
@@ -1080,7 +1080,7 @@
 - name: 1.9 Ensure updates, patches, and additional security software are installed
   apt:
     upgrade: dist
-  ignore_errors: yes
+  ignore_errors: true
   tags:
     - section1
     - level_1_server

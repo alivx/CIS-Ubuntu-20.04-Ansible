@@ -96,7 +96,7 @@
       file:
         path: /etc/cron.deny
         state: absent
-      ignore_errors: yes
+      ignore_errors: true
     - stat:
         path: /etc/cron.allow
       register: cfile
@@ -119,7 +119,7 @@
       file:
         path: /etc/at.deny
         state: absent
-      ignore_errors: yes
+      ignore_errors: true
     - stat:
         path: /etc/at.allow
       register: cfile
@@ -523,7 +523,7 @@
         state: present
         create: yes
         dest: /etc/security/pwquality.conf
-        regexp: "^{{ item.key }}"
+        regexp: "^#?\\s*{{ item.key }}"
         line: "{{ item.key }} = {{ item.value }}"
       with_items:
         - { key: "minlen", value: "14" }
@@ -531,6 +531,7 @@
         - { key: "ucredit", value: "-1" }
         - { key: "ocredit", value: "-1" }
         - { key: "lcredit", value: "-1" }
+        - { key: "minclass", value: "4" }
   tags:
     - section5
     - level_1_server
@@ -634,7 +635,7 @@
     - name: 5.5.1.3 Ensure password expiration warning days is 7 or more  | chage --warndays
       command: "chage --warndays {{ pass_warn_age }} {{ item }}"
       with_items: "{{ list_of_os_users }}"
-  ignore_errors: yes
+  ignore_errors: true
   tags:
     - section5
     - level_1_server
@@ -650,7 +651,7 @@
     - name: 5.5.1.4 Ensure inactive password lock is 30 days or less | useradd
       command: "chage --inactive {{ account_inactive }} {{ item }}"
       with_items: "{{ list_of_os_users }}"
-  ignore_errors: yes
+  ignore_errors: true
   tags:
     - section5
     - level_1_server
@@ -800,7 +801,7 @@
       copy:
         dest: "{{ outputfiles }}/5.6"
         content: "{{ securetty }}"
-  ignore_errors: yes
+  ignore_errors: true
   tags:
     - section5
     - level_1_server

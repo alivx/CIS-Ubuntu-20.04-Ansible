@@ -363,7 +363,7 @@
       lineinfile:
         dest: /etc/postfix/main.cf
         regexp: "^(#)?inet_interfaces"
-        line: "inet_interfaces = localhost"
+        line: "inet_interfaces = loopback-only"
       when: postfix.stat.exists
   tags:
     - section2
@@ -376,7 +376,7 @@
   apt:
     name: rsync
     state: absent
-  ignore_errors: yes
+  ignore_errors: true
   when: remove_rsyncservice
   tags:
     - section2
