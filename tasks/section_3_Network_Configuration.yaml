@@ -18,9 +18,10 @@
         state: present
         reload: true
       with_items:
-        - { name: net.ipv4.conf.all.send_redirects, value: 0 }
-        - { name: net.ipv4.conf.default.send_redirects, value: 0 }
-  when: IPv6_is_enabled
+        - { name: net.ipv6.conf.all.disable_ipv6, value: 1 }
+        - { name: net.ipv6.conf.default.disable_ipv6, value: 1 }
+        - { name: net.ipv6.route.flush=1, value: 1 }
+  when: not IPv6_is_enabled
   tags:
     - section3
     - level_2_server
