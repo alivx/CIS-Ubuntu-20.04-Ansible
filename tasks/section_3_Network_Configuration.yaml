@@ -20,8 +20,8 @@
       with_items:
         - { name: net.ipv6.conf.all.disable_ipv6, value: 1 }
         - { name: net.ipv6.conf.default.disable_ipv6, value: 1 }
-        - { name: net.ipv6.route.flush=1, value: 1 }
-  when: not IPv6_is_enabled
+        - { name: net.ipv6.route.flush, value: 1 }
+  when: IPv6_is_enabled is defined and not IPv6_is_enabled
   tags:
     - section3
     - level_2_server
