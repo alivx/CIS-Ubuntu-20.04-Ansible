@@ -491,13 +491,33 @@
 # 4.4 Ensure logrotate assigns appropriate permissions
 # It is important to ensure that log files have the correct permissions to ensure that sensitive data is archived and protected.
 - name: 4.4 Ensure logrotate assigns appropriate permissions
-  lineinfile:
-    dest: /etc/logrotate.conf
-    regexp: "^create\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)"
-    line: create 0640 \g<2> \g<3>
-    backrefs: true
-  notify:
-    - journald restart
+  block:
+    - name: 4.4 Ensure logrotate assigns appropriate permissions - /etc/logrotate.conf
+      lineinfile:
+        path: /etc/logrotate.conf
+        regexp: "^(\\*)screate\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)"
+        line: \g<1> create 0640 \g<3> \g<4>
+        backrefs: true
+      notify:
+        - journald restart
+    - name: 4.4 Ensure logrotate assigns appropriate permissions - Find files in /etc/logrotate.d/*
+      find:
+        file_type: file
+        paths: "/etc/logrotate.d/"
+      register: configFiles
+    - name: Debug
+      debug:
+          msg: "{{ item.path }}"
+      with_items: " {{ configFiles.files }}"
+    - name: 4.4 Ensure logrotate assigns appropriate permissions - Change files in /etc/logrotate.d/*
+      lineinfile:
+        path: "{{ item.path }}"
+        regexp: "^(\\s*)create\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)"
+        line: \g<1> create 0640 \g<3> \g<4>
+        backrefs: true
+      with_items: " {{ configFiles.files }}"
+      notify:
+        - journald restart
   tags:
     - section4
     - level_1_server
