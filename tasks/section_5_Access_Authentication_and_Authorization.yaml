@@ -137,9 +137,13 @@
     - 5.1.9
 
 # 5.2 Configure sudo
-# sudo allows a permitted user to execute a command as the superuser or another user,
-# as specified by the security policy. The invoking user's real (not effective)
-# user ID is used to determine the user name with which to query the security policy
+# sudo allows a permitted user to execute a command as the superuser or another user, as
+# specified by the security policy. The invoking user's real (not effective) user ID is used to
+# determine the user name with which to query the security policy.
+# sudo supports a plugin architecture for security policies and input/output logging. Third
+# parties can develop and distribute their own policy and I/O logging plugins to work
+# seamlessly with the sudo front end. The default security policy is sudoers, which is
+# configured via the file /etc/sudoers.
 - name: 5.2.1 Ensure sudo is installed
   apt:
     name: sudo
@@ -150,12 +154,42 @@
     - level_1_server
     - level_1_workstation
     - 5.2.1
-# - name: 5.2.2 Ensure sudo commands use pty
-# Edit the file /etc/sudoers or a file in /etc/sudoers.d/ with visudo -f and add the following line
-# Defaults use_pty
-# - name: 5.2.3 Ensure sudo log file exists
-# Edit the file /etc/sudoers or a file in /etc/sudoers.d/ with visudo -f and add the following line: and add the following line:
-# Defaults logfile="/var/log/sudo.log"
+# 5.2.2 Ensure sudo commands use pty
+# sudo can be configured to run only from a pseudo-pty
+# Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the
+# sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks or
+# parse errors. If the sudoers file is currently being edited you will receive a message to try
+# again later.
+- name: 5.2.2 Ensure sudo commands use pty
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^Defaults use_pty"
+    line: "Defaults use_pty"
+    validate: "visudo -cf %s"
+  tags:
+    - section5
+    - level_1_server
+    - level_1_workstation
+    - 5.2.2
+# 5.2.3 Ensure sudo log file exists
+# sudo can use a custom log file.
+# Note: visudo edits the sudoers file in a safe fashion, analogous to vipw(8). visudo locks the
+# sudoers file against multiple simultaneous edits, provides basic sanity checks, and checks or
+# parse errors. If the sudoers file is currently being edited you will receive a message to try
+# again later.
+- name: 5.2.3 Ensure sudo log file exists
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^Defaults logfile.*"
+    line: 'Defaults logfile="/var/log/sudo.log"'
+    validate: "visudo -cf %s"
+  tags:
+    - section5
+    - level_1_server
+    - level_1_workstation
+    - 5.2.3
 
 # 5.3 Configure SSH Server
 # 5.3.1 Ensure permissions on /etc/ssh/sshd_config are configured
