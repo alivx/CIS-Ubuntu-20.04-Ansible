@@ -19,11 +19,12 @@
         sysctl_set: true
         state: present
         reload: true
+      ignore_errors: true
       with_items:
         - { name: net.ipv6.conf.all.disable_ipv6, value: 1 }
         - { name: net.ipv6.conf.default.disable_ipv6, value: 1 }
         - { name: net.ipv6.route.flush, value: 1 }
-  when: IPv6_is_enabled
+  when: not IPv6_is_enabled
   tags:
     - section3
     - level_2_server
