@@ -20,10 +20,27 @@
         state: present
         reload: true
       ignore_errors: true
+      register: result_disable_ipv6_sysctl
       with_items:
         - { name: net.ipv6.conf.all.disable_ipv6, value: 1 }
         - { name: net.ipv6.conf.default.disable_ipv6, value: 1 }
         - { name: net.ipv6.route.flush, value: 1 }
+      # IF IPv6 is disabled in GRUB, above task will fail but leave /etc/sysctl dirty, preventing sysctl
+      # configurations in other tasks.
+      # In the below task, the last iteration will leave the sysctl file cleaned up.
+    - name: 3.1.1 Disable IPv6 - recover sysctl
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: absent
+        reload: true
+      ignore_errors: true
+      with_items:
+        - { name: net.ipv6.conf.all.disable_ipv6, value: 1 }
+        - { name: net.ipv6.conf.default.disable_ipv6, value: 1 }
+        - { name: net.ipv6.route.flush, value: 1 }
+      when: result_disable_ipv6_sysctl.failed
+
   when: not IPv6_is_enabled
   tags:
     - section3
