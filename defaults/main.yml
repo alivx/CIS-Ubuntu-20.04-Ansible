@@ -93,8 +93,12 @@ remove_RPC: yes
 
 
 # Section 3 Settings
-disable_wifi: no
+# 3.1.1 Disable IPv6
+## General flag to enable IPv6 in grub and /etc/sysctl.conf
 IPv6_is_enabled: no
+## Can be used to only disable IPv6 in sysctl and not in Grub (useful when other apps set IPv6 values in /etc/sysctl.conf).
+disable_IPv6_in_grub: "{{ not IPv6_is_enabled }}"
+disable_wifi: no
 enable_firewall: yes
 UFWEnable: yes # Running both ufw and the services included in the iptables-persistent package may lead to conflict
 ## 3.5.1.6 Ensure firewall rules exist for all open ports | defined ports
