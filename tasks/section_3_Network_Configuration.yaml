@@ -5,15 +5,20 @@
 # If IPv6 or dual stack is not to be used, it is recommended that IPv6 be disabled to reduce the attack surface of the system.
 - name: 3.1.1 Disable IPv6
   block:
-    - name: 3.1.1 Disable IPv6 - change /etc/default/grub
+    - name: 3.1.1 Disable IPv6 - change /etc/default/grub to disable IPv6
       replace:
         dest: /etc/default/grub
         regexp: '^(GRUB_CMDLINE_LINUX=(?!.*ipv6.disable)\"[^\"]*)(\".*)'
         replace: '\1 ipv6.disable=1\2'
       when: disable_IPv6_in_grub
+    - name: 3.1.1 Disable IPv6 - change /etc/default/grub to remove disabling IPv6
+      replace:
+        dest: /etc/default/grub
+        regexp: '^(GRUB_CMDLINE_LINUX=".*) ipv6.disable=1(.*")$'
+        replace: '\1\2'
+      when: not disable_IPv6_in_grub
     - name: 3.1.1 Disable IPv6 - update grub
       shell: update-grub
-      when: disable_IPv6_in_grub
     - name: 3.1.1 Disable IPv6 - change sysctl
       sysctl:
         name: "{{ item.name }}"
