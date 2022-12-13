@@ -159,9 +159,6 @@ account_inactive: 30
 ## 5.4.5 Ensure default user shell timeout is 900 seconds or less
 shell_timeout_sec: 900
 ## 5.5.4 Ensure default user umask is 027 or more restrictive
-pam_common_session: true 
-## Adds parameter to enable (by default) or disable `sesion optional pam_umask.so` in `/etc/pam.d/common-session` 
-
 umask_value: "027" # Adds the option to declare the umask preferred value, with 027 as default
 ## In some particular use cases (e.g. installing and using new python packages after 
 ## hardening), it is required that umask permissions were not as strict as 
