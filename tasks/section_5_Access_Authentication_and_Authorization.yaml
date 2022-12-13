@@ -769,6 +769,7 @@
         dest: /etc/pam.d/common-session
         regexp: '^session optional\s+'
         line: "session optional  pam_umask.so"
+      when: pam_common_session
     - name: 5.5.4 Ensure default user umask is {{ umask_value | default('027') }} or more restrictive - /etc/bash.bashrc
       lineinfile:
         state: present
