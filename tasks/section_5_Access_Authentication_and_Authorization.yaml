@@ -552,6 +552,11 @@
     - level_1_workstation
     - 5.3.X
 
+# This is necessary as we just restarted SSH, if pipelining is enabled and the configuration above breaks connecting
+# the SSH connection may suddenly fail resulting in broken PAM
+- name: Reset connection
+  meta: reset_connection
+
 # 5.4 Configure PAM
 # 5.4.1 Ensure password creation requirements are configured
 # Strong passwords protect systems from being hacked through brute force methods.
