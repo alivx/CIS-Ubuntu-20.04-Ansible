@@ -19,6 +19,11 @@
       when: not disable_IPv6_in_grub
     - name: 3.1.1 Disable IPv6 - update grub
       shell: update-grub
+    - name: 3.1.1 Disable IPv6 - Disable ipv6 ufw policies if ipv6 is not enabled 
+      replace:
+        path: /etc/default/ufw
+        regexp: '^(IPV6=yes)'
+        replace: 'IPV6=no'
     - name: 3.1.1 Disable IPv6 - change sysctl
       sysctl:
         name: "{{ item.name }}"
@@ -267,6 +272,8 @@
       changed_when: False
       ignore_errors: True
       register: ufw_check 
+    
+      
     - name: 3.3.4 Ensure suspicious packets are logged | restart ufw after changes in /etc/ufw/sysctl.conf
       service:
         name: ufw
