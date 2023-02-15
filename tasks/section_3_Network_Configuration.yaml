@@ -530,7 +530,16 @@
         name: ufw
         state: started
         enabled: true
-      when: UFWEnable
+    
+    - name: 3.5.1.3 Ensure ufw service is enabled | If needed, reset any rules manually added to UFW before enable
+      shell: 
+        cmd: "ufw --force reset" 
+        # notes:
+        # port 22 is going to be allowed in the next task (also in 3.5.1.6, btw)
+        # port 53 is going to be allowed in 3.5.1.6
+        # ufw is going to be enabled in 3.5.1.7
+      become: true
+
     - name: 3.5.1.3 Ensure ufw service is enabled | allow 22 before enable
       ufw:
         rule: "{{ item.rule }}"
