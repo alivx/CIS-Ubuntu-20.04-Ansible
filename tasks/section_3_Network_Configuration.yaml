@@ -531,7 +531,11 @@
         state: started
         enabled: true
     
-    - name: 3.5.1.3 Ensure ufw service is enabled | If needed, reset any rules manually added to UFW before enable
+    - name: 3.5.1.3 Ensure ufw service is enabled | disable ufw before making changes
+      ufw: 
+        state: disabled
+    
+    - name: 3.5.1.3 Ensure ufw service is enabled | Reset any rules previously added to UFW before enable
       shell: 
         cmd: "ufw --force reset" 
         # notes:
