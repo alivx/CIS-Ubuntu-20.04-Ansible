@@ -621,8 +621,8 @@
 - name: 5.4.4 Ensure password hashing algorithm is SHA-512
   lineinfile:
     dest: /etc/pam.d/common-password
-    regexp: '^password\s+\[\s{0,}(success=[1-9])\s+(default.+)\s{0,}\]\s+(.*)\s+(md5|blowfish|bigcrypt|sha256|sha512)\s+?(.*)'
-    line: 'password [\1 \2] \3 sha512 \4'
+    regexp: '^password\s+\[success(.*)(md5|blowfish|bigcrypt|sha256|sha512)(.*)$'
+    line: 'password [success\1 sha512 \3'
   tags:
     - section5
     - level_1_server
