@@ -611,6 +611,7 @@
   lineinfile:
     dest: /etc/pam.d/common-password
     line: "password required pam_pwhistory.so remember=5"
+    insertafter: '^password\s+?requisite.*'
   tags:
     - section5
     - level_1_server
