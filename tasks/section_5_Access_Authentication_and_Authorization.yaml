@@ -626,6 +626,7 @@
     dest: /etc/pam.d/common-password
     regexp: '^password\s+\[success(.*)(md5|blowfish|bigcrypt|sha256|sha512)(.*)$'
     line: 'password [success\1 sha512 \3'
+    backrefs: true
   tags:
     - section5
     - level_1_server
