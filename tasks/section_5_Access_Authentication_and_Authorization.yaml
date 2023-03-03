@@ -607,7 +607,19 @@
     - 5.4.2
 # 5.4.3 Ensure password reuse is limited
 # Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against your systems.
-- name: 5.4.3 Ensure password reuse is limited
+
+- name: 5.4.3.1 Ensure password reuse is limited | delete possible duplicate lines
+  lineinfile:
+    dest: /etc/pam.d/common-password
+    regexp: '^password.*pam_pwhistory\.so.*remember.*'
+    state: absent
+  tags:
+    - section5
+    - level_1_server
+    - level_1_workstation
+    - 5.4.3
+
+- name: 5.4.3.2 Ensure password reuse is limited | update file according to CIS
   lineinfile:
     dest: /etc/pam.d/common-password
     line: "password required pam_pwhistory.so remember=5"
@@ -619,6 +631,7 @@
     - level_1_server
     - level_1_workstation
     - 5.4.3
+
 # 5.4.4 Ensure password hashing algorithm is SHA-512
 # The SHA-512 algorithm provides much stronger hashing than MD5, thus providing additional protection to the system by increasing the level of effort for an attacker to successfully determine passwords.
 - name: 5.4.4 Ensure password hashing algorithm is SHA-512
