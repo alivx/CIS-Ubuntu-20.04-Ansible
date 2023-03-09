@@ -607,6 +607,17 @@
     - 5.4.2
 # 5.4.3 Ensure password reuse is limited
 # Locking out user IDs after n unsuccessful consecutive login attempts mitigates brute force password attacks against your systems.
+- name: Fixing previous retouches in /etc/pam.d/common-password
+  lineinfile:
+    dest: /etc/pam.d/common-password
+    regexp: '^password\s+\[success=[12]\s+default.*\]\s+pam_unix.so.*sha512\s*$'
+    line: "password        [success=2 default=ignore]      pam_unix.so obscure use_authtok try_first_pass sha512"
+    state: present
+  tags:
+    - section5
+    - level_1_server
+    - level_1_workstation
+    - 5.4.3
 
 - name: 5.4.3.1 Ensure password reuse is limited | delete possible duplicate lines
   lineinfile:
