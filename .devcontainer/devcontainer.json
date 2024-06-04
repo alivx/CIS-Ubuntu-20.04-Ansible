@@ -1,0 +1,45 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainers/features/powershell:1": {
+			"version": "latest"
+		},
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+			"upgradePackages": true,
+			"packages": "curl,nano"
+		},
+		"ghcr.io/devcontainers-contrib/features/nmap-apt-get:1": {},
+		"ghcr.io/devcontainers-contrib/features/pipenv:2": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers-contrib/features/pipx-package:1": {
+			"includeDeps": true,
+			"package": "black",
+			"version": "latest",
+			"injections": "pylint pytest",
+			"interpreter": "python3"
+		},
+		"ghcr.io/devcontainers-contrib/features/visualvm-sdkman:2": {
+			"version": "latest",
+			"jdkVersion": "latest",
+			"jdkDistro": "ms"
+		},
+		"ghcr.io/natescherer/devcontainers-custom-features/powershell-resources:1": {},
+		"ghcr.io/oleksis/devcontainer-features/python-launcher:1": {
+			"version": "latest"
+		},
+		"ghcr.io/msclock/features/gitlab-ci-local:0": {
+			"version": "latest"
+		},
+		"ghcr.io/eliises/devcontainer-features/bash-profile:1": {
+			"command": "alias k=kubectl",
+			"file": "/etc/bash.bashrc"
+		},
+		"ghcr.io/akhildevelops/devcontainer-features/pip:0": {},
+		"ghcr.io/raucha/devcontainer-features/pytorch:1": {},
+		"ghcr.io/hspaans/devcontainer-features/pytest:1": {
+			"version": "latest",
+			"plugins": "pytest-testinfra"
+		}
+	}
+}
